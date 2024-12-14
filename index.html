@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès Google Sheets via OAuth2</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <h1>Récupération de données Google Sheets</h1>
+  <button id="authorize_button">Se connecter et récupérer les données</button>
+
+  <script>
+    // Variables nécessaires
+    const CLIENT_ID = 'TON_ID_CLIENT.apps.googleusercontent.com';
+    const SHEET_ID = 'TON_ID_DE_LA_FEUILLE';
+    const RANGE = 'Feuille1!A1:B10'; // Adapter à la plage de ta feuille
+
+    let accessToken = '';
+
+    // Initialiser le processus OAuth2
+    function initAuth() {
+      google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+        callback: (tokenResponse) => {
+          accessToken = tokenResponse.access_token;
+          fetchSheetData();
+        },
+      }).requestAccessToken();
+    }
+
+    // Fonction pour récupérer les données de la Google Sheet
+    function fetchSheetData() {
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Données récupérées :', data);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+    }
+
+    // Écouteur pour le bouton de connexion
+    document.getElementById('authorize_button').addEventListener('click', initAuth);
+  </script>
+</body>
+</html>
