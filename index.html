@@ -1,52 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Message d'anniversaire</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications Push</title>
 </head>
 <body>
+  <h1>Notifications Push depuis une Page GitHub</h1>
+  <button id="notify-btn">Envoyer une Notification</button>
 
-<div id="birthday-message" class="w3-container w3-margin w3-center w3-animate-left">
-    <!-- Le message de l'anniversaire sera affiché ici si la condition est vraie -->
-</div>
-
-<script>
-    // URL de l'API avec la clé fournie
-    const apiUrl2 = decode("myyux?44xmjjyx3lttlqjfunx3htr4{94xuwjfixmjjyx46♠VgUOzz>OX7jMjx26_:Sfdi]RF8M2irnpZy{nwMsS94{fqzjx4Mjzwjx&Q;?Q<Dpj~BFNfX~Fs]jSKhxfINJ♠9y[Y[fq{Tn♠:P~XJ=K>V", 5);
-
-    // Fonction principale pour récupérer et afficher les données
-    async function fetchAndDisplayBirthdayMessage() {
-        try {
-            const response = await fetch(apiUrl2);
-            const data = await response.json();
-
-            // Extraire les valeurs du JSON
-            const values = data.values;
-
-            // Vérification si la première valeur est "TRUE" pour afficher le message
-            if (values[0][0] === "TRUE") {
-                const name = values[1][0]; // Le nom de la personne
-
-                const message = `C'est l'anniversaire de ${name} 🎂`;
-
-                // Créer le message défilant avec les classes W3Schools
-                const messageDiv = document.getElementById("birthday-message");
-                messageDiv.innerHTML = `<marquee class="w3-large w3-text-blue">${message}</marquee>`;
-                messageDiv.classList.remove("w3-hide"); // S'assurer que le message est visible
-            } else {
-                // Si la première ligne est "FALSE", masquer le message
-                document.getElementById("birthday-message").classList.add("w3-hide");
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération des données :", error);
-            document.getElementById("birthday-message").innerHTML = "<p class='w3-text-red'>Erreur de chargement des données.</p>";
-        }
-    }
-
-    // Appel de la fonction pour afficher le message
-    fetchAndDisplayBirthdayMessage();
-</script>
-
+  <script src="app.js"></script>
 </body>
 </html>
